@@ -24,12 +24,16 @@ WORKDIR /home/openchamber
 RUN apt-get update && apt-get install -y --no-install-recommends \
   bash \
   ca-certificates \
+  curl \
   git \
   less \
-  nodejs \
-  npm \
   openssh-client \
   python3 \
+  && rm -rf /var/lib/apt/lists/*
+
+# Pin Node.js 24 (LTS) from NodeSource instead of the distro's nodejs/npm
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+  && apt-get install -y --no-install-recommends nodejs \
   && rm -rf /var/lib/apt/lists/*
 
 # Replace the base image's 'bun' user (UID 1000) with 'openchamber'

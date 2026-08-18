@@ -50,7 +50,13 @@ ENV NPM_CONFIG_PREFIX=/home/openchamber/.npm-global
 ENV PATH=${NPM_CONFIG_PREFIX}/bin:${PATH}
 
 RUN npm config set prefix /home/openchamber/.npm-global && mkdir -p /home/openchamber/.npm-global && \
-  mkdir -p /home/openchamber/.local /home/openchamber/.config /home/openchamber/.ssh && \
+  mkdir -p \
+    /home/openchamber/.local/share/opencode \
+    /home/openchamber/.local/state/opencode \
+    /home/openchamber/.config/openchamber \
+    /home/openchamber/.config/opencode \
+    /home/openchamber/.ssh \
+    /home/openchamber/workspaces && \
   npm install -g opencode-ai
 
 # cloudflared 2026.3.0 - update digest explicitly when upgrading

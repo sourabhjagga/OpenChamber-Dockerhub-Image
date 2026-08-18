@@ -1,0 +1,20 @@
+version: 2.1
+
+jobs:
+  build:
+    machine: true
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - run: docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
+      - run: |
+          docker build -t sourabhjagga/openchamber:latest .
+          docker push sourabhjagga/openchamber:latest
+
+workflows:
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main

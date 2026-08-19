@@ -26,10 +26,11 @@ jobs:
           git merge upstream/main -X ours --no-edit
       - name: Re-apply fork overlay
         run: |
-          # Our fork-specific Dockerfile (node 24 pin, volume dirs) always wins.
-          # Update overlay/Dockerfile when you want new custom changes.
+          # Our fork-specific files (Dockerfile, renovate.json) always win on
+          # sync. Update the copies under overlay/ for new custom changes.
           cp overlay/Dockerfile Dockerfile
-          git add Dockerfile
-          git diff --cached --quiet || git commit -m "chore: re-apply fork overlay (node 24, volume dirs)"
+          cp overlay/renovate.json renovate.json
+          git add Dockerfile renovate.json
+          git diff --cached --quiet || git commit -m "chore: re-apply fork overlay"
       - name: Push to main
         run: git push origin main

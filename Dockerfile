@@ -31,8 +31,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3 \
   && rm -rf /var/lib/apt/lists/*
 
-# Pin Node.js 24 (LTS) from NodeSource instead of the distro's nodejs/npm
-RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+# Node.js: ARG default is the major, tracked by Renovate (bumps only when a
+# new major ships); setup_${NODE_VERSION}.x resolves the latest patch of that
+# line at build time.
+ARG NODE_VERSION=24
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && apt-get install -y --no-install-recommends nodejs \
   && rm -rf /var/lib/apt/lists/*
 

@@ -2,7 +2,7 @@ name: sync-upstream
 
 on:
   schedule:
-    - cron: "0 3 * * *" # daily 03:00 UTC
+    - cron: "0 3 1 * *" # monthly, 1st of month 03:00 UTC
   workflow_dispatch: {} # manual "Run workflow" button
 
 permissions:

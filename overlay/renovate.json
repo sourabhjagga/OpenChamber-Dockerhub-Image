@@ -5,7 +5,7 @@
   ],
   "timezone": "Europe/Kyiv",
   "schedule": [
-    "0 7 1 * *"
+    "at any time"
   ],
   "minimumReleaseAge": "1 day",
   "dependencyDashboard": true,
@@ -48,5 +48,6 @@
       ],
       "automerge": true
     }
-  ]
+  ],
+  "forkProcessing": "enabled"
 }

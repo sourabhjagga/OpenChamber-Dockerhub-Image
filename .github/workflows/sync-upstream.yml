@@ -1,0 +1,35 @@
+name: sync-upstream
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # daily 03:00 UTC
+  workflow_dispatch: {} # manual "Run workflow" button
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Merge upstream main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/openchamber/openchamber.git
+          git fetch upstream main
+          # -X ours: on conflicting hunks, keep our fork's version (i.e. our
+          # Dockerfile). Non-conflicting upstream changes still merge in.
+          git merge upstream/main -X ours --no-edit
+      - name: Re-apply fork overlay
+        run: |
+          # Our fork-specific Dockerfile (node 24 pin, volume dirs) always wins.
+          # Update overlay/Dockerfile when you want new custom changes.
+          cp overlay/Dockerfile Dockerfile
+          git add Dockerfile
+          git diff --cached --quiet || git commit -m "chore: re-apply fork overlay (node 24, volume dirs)"
+      - name: Push to main
+        run: git push origin main

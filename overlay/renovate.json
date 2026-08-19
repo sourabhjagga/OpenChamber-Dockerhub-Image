@@ -5,7 +5,7 @@
   ],
   "timezone": "Europe/Kyiv",
   "schedule": [
-    "at any time"
+    "0 7 1 * *"
   ],
   "minimumReleaseAge": "1 day",
   "dependencyDashboard": true,
